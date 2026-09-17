@@ -15,6 +15,33 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   });
 
+  // Play videos like a silent, looping GIF: on hover for pointer devices,
+  // or while scrolled into view on touch devices where hover doesn't exist.
+  const canHover = window.matchMedia("(hover: hover)").matches;
+  document.querySelectorAll(".project-video").forEach((video) => {
+    const stop = () => {
+      video.pause();
+      video.currentTime = 0;
+    };
+    stop();
+
+    if (canHover) {
+      const media = video.closest(".project-media");
+      media.addEventListener("mouseenter", () => video.play().catch(() => {}));
+      media.addEventListener("mouseleave", stop);
+    } else if ("IntersectionObserver" in window) {
+      new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) video.play().catch(() => {});
+            else stop();
+          });
+        },
+        { threshold: 0.6 }
+      ).observe(video);
+    }
+  });
+
   if ("IntersectionObserver" in window) {
     const revealObserver = new IntersectionObserver(
       (entries) => {
