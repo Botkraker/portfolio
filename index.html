@@ -10,7 +10,7 @@
 <link rel="preload" href="assets/fonts/space-grotesk-latin.woff2" as="font" type="font/woff2" crossorigin>
 
 <link rel="stylesheet" href="css/style.css">
-<link rel="icon" href="data:,">
+<link rel="icon" type="image/png" href="assets/professional-portfolio.png">
 </head>
 <body>
 
@@ -82,21 +82,83 @@
       <h2 id="experience-heading" class="section-heading">Where I've worked.</h2>
 
       <div class="experience-list">
+
         <article class="experience-item">
-          <div class="experience-head">
-            <h3 class="experience-role">Backend Developer — Warehouse Management System</h3>
-            <span class="experience-date metric-todo">[dates]</span>
+          <div class="project-media experience-media" data-media-slot="axcess">
+            <video class="project-video" controls playsinline preload="none">
+              <source src="assets/projects/Axess.mp4" type="video/mp4">
+            </video>
+            <div class="media-placeholder media-placeholder-overlay">
+              <span class="media-placeholder-label">Demo video — add via <code>assets/projects/Axess.mp4</code></span>
+            </div>
           </div>
-          <p class="experience-org metric-todo">[Company / team name]</p>
-          <ul class="experience-points">
-            <li>Designed and implemented role-based access control (RBAC) to enforce permission boundaries across user roles.</li>
-            <li>Built tenant isolation into the backend so data and operations stayed correctly scoped per client.</li>
-            <li>Implemented audit logging to track system actions for traceability and compliance.</li>
-          </ul>
-          <ul class="tech-tags">
-            <li>Backend</li><li>RBAC</li><li>Multi-tenancy</li>
-          </ul>
+          <div class="experience-body">
+            <div class="experience-head">
+              <h3 class="experience-role">WMS Developer Intern</h3>
+              <span class="experience-date">Jul – Aug 2026</span>
+            </div>
+            <p class="experience-org">Axcess Logistics</p>
+            <ul class="experience-points">
+              <li>Architected backend services for a multi-tenant Warehouse Management System (WMS) using NestJS, Prisma ORM, and PostgreSQL, structuring the relational data model for warehouse and merchant entities.</li>
+              <li>Implemented granular Role-Based Access Control (RBAC) across 4 scoped user roles (SUPERADMIN, ADMIN, AGENT, CLIENT), enforcing strict data isolation across warehouse and merchant boundaries.</li>
+              <li>Built end-to-end audit logging across all state-changing operations to ensure complete data traceability, compliance, and security — a governance pattern directly transferable to production data-pipeline monitoring.</li>
+            </ul>
+            <ul class="tech-tags">
+              <li>NestJS</li><li>Prisma</li><li>PostgreSQL</li><li>RBAC</li><li>Multi-tenancy</li>
+            </ul>
+          </div>
         </article>
+
+        <article class="experience-item">
+          <div class="project-media experience-media" data-media-slot="scsi">
+            <video class="project-video" controls playsinline preload="none">
+              <source src="assets/projects/Pointeuse.mp4" type="video/mp4">
+            </video>
+            <div class="media-placeholder media-placeholder-overlay">
+              <span class="media-placeholder-label">Demo video — add via <code>assets/projects/Pointeuse.mp4</code></span>
+            </div>
+          </div>
+          <div class="experience-body">
+            <div class="experience-head">
+              <h3 class="experience-role">PunchTime Machine System Developer Intern</h3>
+              <span class="experience-date">May – Jul 2025</span>
+            </div>
+            <p class="experience-org">SCSI (Société de Conseils et Solutions Informatiques)</p>
+            <ul class="experience-points">
+              <li>Developed a full-stack web application using .NET Core 8 and a SQL Server database to manage attendance tracking, schedules, and history for all company employees.</li>
+              <li>Designed the relational database schema and built a secure admin interface with role-based authentication and access management.</li>
+            </ul>
+            <ul class="tech-tags">
+              <li>.NET Core 8</li><li>SQL Server</li><li>RBAC</li>
+            </ul>
+          </div>
+        </article>
+
+        <article class="experience-item">
+          <div class="project-media experience-media" data-media-slot="idea-lab-internship">
+            <video class="project-video" controls playsinline preload="none">
+              <source src="assets/projects/AiMeherzya.mp4" type="video/mp4">
+            </video>
+            <div class="media-placeholder media-placeholder-overlay">
+              <span class="media-placeholder-label">Demo video — add via <code>assets/projects/AiMeherzya.mp4</code></span>
+            </div>
+          </div>
+          <div class="experience-body">
+            <div class="experience-head">
+              <h3 class="experience-role">Artificial Intelligence Intern</h3>
+              <span class="experience-date">Jul – Aug 2024</span>
+            </div>
+            <p class="experience-org">Idea Lab, FSB</p>
+            <ul class="experience-points">
+              <li>Trained a conversational LLM agent to answer educational questions for students in preparatory ("prépa") classes.</li>
+              <li>Collected and structured educational materials via web scraping to build the model's training corpus — an early hands-on data-collection and preprocessing exercise.</li>
+            </ul>
+            <ul class="tech-tags">
+              <li>LLM</li><li>Web Scraping</li><li>Data Preprocessing</li>
+            </ul>
+          </div>
+        </article>
+
       </div>
     </section>
 
@@ -234,11 +296,11 @@
         <!-- Project 6: Fridguard -->
         <article class="project-card" id="project-fridguard">
           <div class="project-media" data-media-slot="fridguard">
-            <video class="project-video" controls playsinline preload="none" poster="assets/projects/fridguard-poster.jpg">
-              <source src="assets/projects/fridguard.mp4" type="video/mp4">
+            <video class="project-video" controls playsinline preload="none">
+              <source src="assets/projects/Fridgard.mp4" type="video/mp4">
             </video>
             <div class="media-placeholder media-placeholder-overlay">
-              <span class="media-placeholder-label">Demo video — add via <code>assets/projects/fridguard.mp4</code></span>
+              <span class="media-placeholder-label">Demo video — add via <code>assets/projects/Fridgard.mp4</code></span>
             </div>
           </div>
           <div class="project-body">

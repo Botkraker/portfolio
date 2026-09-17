@@ -539,8 +539,26 @@ h1, h2, h3, h4 {
 }
 
 .experience-item {
+  display: grid;
+  grid-template-columns: 200px 1fr;
+  gap: 24px;
   border-left: 2px solid var(--accent);
   padding-left: 22px;
+}
+
+.experience-media {
+  min-height: 120px;
+}
+
+.experience-media .project-video,
+.experience-media .media-placeholder {
+  min-height: 120px;
+}
+
+@media (max-width: 720px) {
+  .experience-item {
+    grid-template-columns: 1fr;
+  }
 }
 
 .experience-head {
