@@ -2,7 +2,32 @@
    Yassine Ben Sassi — Portfolio
    Palette: near-black + warm amber + muted teal
    Type: Fraunces (display) / Space Grotesk (body) / JetBrains Mono (labels)
+   Fonts are self-hosted (variable, latin subset) — see assets/fonts/
    ============================================ */
+
+@font-face {
+  font-family: "Fraunces";
+  src: url("../assets/fonts/fraunces-latin.woff2") format("woff2");
+  font-weight: 400 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Space Grotesk";
+  src: url("../assets/fonts/space-grotesk-latin.woff2") format("woff2");
+  font-weight: 400 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "JetBrains Mono";
+  src: url("../assets/fonts/jetbrains-mono-latin.woff2") format("woff2");
+  font-weight: 400 600;
+  font-style: normal;
+  font-display: swap;
+}
 
 :root {
   --bg: #0c0f13;
