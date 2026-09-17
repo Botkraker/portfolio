@@ -6,14 +6,13 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // Show the "add media" overlay for any project video whose source file
   // isn't there yet, and hide it automatically once the file is added.
+  // Uses the video element's own error event rather than fetch(), since
+  // fetch() can't read file:// URLs when the page is opened directly.
   document.querySelectorAll(".project-video").forEach((video) => {
-    const source = video.querySelector("source");
-    if (!source) return;
-    fetch(source.src, { method: "HEAD" })
-      .then((res) => {
-        if (!res.ok) video.closest(".project-media").classList.add("show-placeholder");
-      })
-      .catch(() => video.closest(".project-media").classList.add("show-placeholder"));
+    if (!video.querySelector("source")) return;
+    video.addEventListener("error", () => {
+      video.closest(".project-media").classList.add("show-placeholder");
+    });
   });
 
   if ("IntersectionObserver" in window) {

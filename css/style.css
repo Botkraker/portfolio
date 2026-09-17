@@ -365,7 +365,7 @@ h1, h2, h3, h4 {
   background: #000;
 }
 
-.media-placeholder-overlay {
+.project-media .media-placeholder-overlay {
   position: absolute;
   inset: 0;
   display: none;
