@@ -15,6 +15,26 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   });
 
+  // Size each media frame to match its video's real aspect ratio, so a
+  // wide desktop screen recording and a tall phone recording each get a
+  // frame that fits them exactly, instead of one fixed box cropping both.
+  // Ratios outside a sane range are clamped and shown letterboxed
+  // (object-fit: contain) instead of cropped, so no on-screen UI in the
+  // demo is ever cut off.
+  const MIN_RATIO = 0.62;
+  const MAX_RATIO = 2;
+  document.querySelectorAll(".project-video").forEach((video) => {
+    video.addEventListener("loadedmetadata", () => {
+      const { videoWidth: w, videoHeight: h } = video;
+      if (!w || !h) return;
+      const ratio = w / h;
+      const clamped = Math.min(Math.max(ratio, MIN_RATIO), MAX_RATIO);
+      const media = video.closest(".project-media");
+      media.style.setProperty("--media-ratio", clamped.toFixed(4));
+      media.classList.toggle("is-letterboxed", Math.abs(clamped - ratio) > 0.02);
+    });
+  });
+
   // Play videos like a silent, looping GIF: on hover for pointer devices,
   // or while scrolled into view on touch devices where hover doesn't exist.
   const canHover = window.matchMedia("(hover: hover)").matches;
@@ -41,6 +61,19 @@ document.addEventListener("DOMContentLoaded", () => {
       ).observe(video);
     }
   });
+
+  // Subtle cursor-tracked glow behind the intro panel (pointer devices only —
+  // it's a response to real input, so it stays on even with reduced motion).
+  if (canHover) {
+    const intro = document.getElementById("intro");
+    if (intro) {
+      intro.addEventListener("pointermove", (e) => {
+        const rect = intro.getBoundingClientRect();
+        intro.style.setProperty("--spot-x", `${((e.clientX - rect.left) / rect.width) * 100}%`);
+        intro.style.setProperty("--spot-y", `${((e.clientY - rect.top) / rect.height) * 100}%`);
+      });
+    }
+  }
 
   if ("IntersectionObserver" in window) {
     const revealObserver = new IntersectionObserver(

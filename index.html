@@ -39,7 +39,7 @@
       <div class="quick-projects" aria-label="Featured projects quick links">
         <span class="quick-projects-label">Jump to a project</span>
         <div class="quick-projects-pills">
-          <a href="#project-idea-lab">LLM Agent + RAG</a>
+          <a href="#idea-lab-internship">LLM Agent + RAG</a>
           <a href="#project-steg">STEG Observatory</a>
           <a href="#project-tourism-bi">Tourism BI</a>
           <a href="#project-energy-bi">Energy Analytics</a>
@@ -85,7 +85,7 @@
 
         <article class="experience-item">
           <div class="project-media experience-media" data-media-slot="axcess">
-            <video class="project-video" muted loop playsinline preload="metadata">
+            <video class="project-video" muted loop playsinline preload="metadata" aria-hidden="true">
               <source src="assets/projects/Axess.mp4" type="video/mp4">
             </video>
             <div class="media-placeholder media-placeholder-overlay">
@@ -111,7 +111,7 @@
 
         <article class="experience-item">
           <div class="project-media experience-media" data-media-slot="scsi">
-            <video class="project-video" muted loop playsinline preload="metadata">
+            <video class="project-video" muted loop playsinline preload="metadata" aria-hidden="true">
               <source src="assets/projects/Pointeuse.mp4" type="video/mp4">
             </video>
             <div class="media-placeholder media-placeholder-overlay">
@@ -134,9 +134,9 @@
           </div>
         </article>
 
-        <article class="experience-item">
+        <article class="experience-item" id="idea-lab-internship">
           <div class="project-media experience-media" data-media-slot="idea-lab-internship">
-            <video class="project-video" muted loop playsinline preload="metadata">
+            <video class="project-video" muted loop playsinline preload="metadata" aria-hidden="true">
               <source src="assets/projects/AiMeherzya.mp4" type="video/mp4">
             </video>
             <div class="media-placeholder media-placeholder-overlay">
@@ -169,35 +169,10 @@
 
       <div class="project-grid">
 
-        <!-- Project 1: LLM Agent + RAG -->
-        <article class="project-card" id="project-idea-lab">
-          <div class="project-media" data-media-slot="idea-lab">
-            <div class="media-placeholder">
-              <span class="media-placeholder-label">Demo video / screenshot — add via <code>assets/projects/idea-lab.mp4</code></span>
-            </div>
-          </div>
-          <div class="project-body">
-            <p class="project-eyebrow">Idea Lab · Conversational AI</p>
-            <h3 class="project-title">LLM Agent + RAG System</h3>
-            <p class="project-blurb">
-              A conversational LLM agent grounded in a retrieval-augmented generation pipeline, built to answer
-              questions over a custom knowledge base rather than relying on the model's parametric memory alone.
-            </p>
-            <p class="project-metric">Impact: <span class="metric-todo">[add a metric — e.g. retrieval accuracy, latency, or queries automated]</span></p>
-            <ul class="tech-tags">
-              <li>LLM</li><li>RAG</li><li>Vector Search</li><li>Python</li>
-            </ul>
-            <div class="project-links">
-              <a href="#" class="project-link">Case study →</a>
-              <a href="#" class="project-link">Code</a>
-            </div>
-          </div>
-        </article>
-
         <!-- Project 2: STEG Observatory -->
         <article class="project-card" id="project-steg">
           <div class="project-media" data-media-slot="steg">
-            <video class="project-video" muted loop playsinline preload="metadata">
+            <video class="project-video" muted loop playsinline preload="metadata" aria-hidden="true">
               <source src="assets/projects/steg.mp4" type="video/mp4">
             </video>
             <div class="media-placeholder media-placeholder-overlay">
@@ -211,12 +186,10 @@
               A real-time data observatory built on a lakehouse architecture, built to handle continuous ingestion,
               storage, and querying at scale rather than batch-only processing.
             </p>
-            <p class="project-metric">Impact: <span class="metric-todo">[add a metric — e.g. events/sec, latency, data volume]</span></p>
             <ul class="tech-tags">
               <li>Lakehouse</li><li>Streaming</li><li>ETL</li><li>Cloud</li>
             </ul>
             <div class="project-links">
-              <a href="#" class="project-link">Case study →</a>
               <a href="#" class="project-link">Code</a>
             </div>
           </div>
@@ -236,12 +209,10 @@
               A KPI dashboard turning raw tourism data into decisions a stakeholder can act on — built around a
               specific business question, not a generic chart collection.
             </p>
-            <p class="project-metric">Business question: <span class="metric-todo">[state the decision this dashboard drives]</span> · Impact: <span class="metric-todo">[add a metric]</span></p>
             <ul class="tech-tags">
               <li>BI</li><li>SQL</li><li>Dashboarding</li>
             </ul>
             <div class="project-links">
-              <a href="#" class="project-link">Case study →</a>
               <a href="#" class="project-link">Code</a>
             </div>
           </div>
@@ -261,12 +232,10 @@
               Trend analysis over energy consumption data, focused on surfacing patterns and forecasts rather
               than a static KPI view — the analytical counterpart to the Tourism dashboard.
             </p>
-            <p class="project-metric">Business question: <span class="metric-todo">[state the decision this analysis drives]</span> · Impact: <span class="metric-todo">[add a metric]</span></p>
             <ul class="tech-tags">
               <li>BI</li><li>Forecasting</li><li>Python</li>
             </ul>
             <div class="project-links">
-              <a href="#" class="project-link">Case study →</a>
               <a href="#" class="project-link">Code</a>
             </div>
           </div>
@@ -290,7 +259,6 @@
               <li>Python</li><li>MLOps</li><li>MLflow</li>
             </ul>
             <div class="project-links">
-              <a href="#" class="project-link">Case study →</a>
               <a href="#" class="project-link">Code</a>
             </div>
           </div>
@@ -299,7 +267,7 @@
         <!-- Project 6: Fridguard -->
         <article class="project-card" id="project-fridguard">
           <div class="project-media" data-media-slot="fridguard">
-            <video class="project-video" muted loop playsinline preload="metadata">
+            <video class="project-video" muted loop playsinline preload="metadata" aria-hidden="true">
               <source src="assets/projects/Fridgard.mp4" type="video/mp4">
             </video>
             <div class="media-placeholder media-placeholder-overlay">
@@ -317,12 +285,10 @@
               recognition and a MongoDB store for inventory tracking. Event-driven Firebase alerts flag
               spoilage-risk conditions, with REST APIs powering an Android app for real-time monitoring.
             </p>
-            <p class="project-metric">Impact: <span class="metric-todo">[add a metric — e.g. detection accuracy, alert response time, waste reduced]</span></p>
             <ul class="tech-tags">
               <li>IoT</li><li>YOLO</li><li>Raspberry Pi</li><li>Node.js</li><li>MongoDB</li><li>Android</li><li>Firebase</li>
             </ul>
             <div class="project-links">
-              <a href="#" class="project-link">Case study →</a>
               <a href="#" class="project-link">Code</a>
             </div>
           </div>
