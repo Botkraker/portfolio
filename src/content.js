@@ -202,8 +202,8 @@ export const certifications = [
 
 export const languages = [
   { name: "Arabic", level: "Native" },
-  { name: "French", level: "Fluent" },
-  { name: "English", level: "Intermediate" },
+  { name: "English", level: "Fluent" },
+  { name: "French", level: "Intermediate" },
   { name: "German", level: "Beginner" },
 ];
 
