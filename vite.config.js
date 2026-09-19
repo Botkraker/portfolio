@@ -2,9 +2,10 @@ import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react";
 import tailwindcss from "@tailwindcss/vite";
 
-// Deployed to GitHub Pages at /<repo>/. Set BASE=/ for a custom domain.
+// Served from the domain root on Cloudflare. The GitHub Pages workflow sets
+// BASE=/portfolio/ because Pages serves the site under the repo name.
 export default defineConfig({
-  base: process.env.BASE ?? "/portfolio/",
+  base: process.env.BASE ?? "/",
   plugins: [react(), tailwindcss()],
   build: {
     assetsInlineLimit: 0,

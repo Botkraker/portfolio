@@ -1,6 +1,10 @@
 {
   "name": "portfolio",
   "compatibility_date": "2026-09-01",
+  // dist/ is build output and isn't committed, so build before every deploy.
+  "build": {
+    "command": "npm run build"
+  },
   "assets": {
     "directory": "./dist",
     "not_found_handling": "single-page-application"
