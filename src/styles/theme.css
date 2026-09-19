@@ -1,0 +1,280 @@
+/* ============================================================
+   Yassine Ben Sassi — "Midnight & Gold Couture"
+   Design tokens. Everything else in the app reads from here.
+   ============================================================ */
+
+@import "tailwindcss";
+
+/* This stylesheet lives in src/styles/, and Tailwind v4 roots its automatic
+   source detection at the stylesheet's own directory — which would scan only
+   this folder. Point it at the app explicitly. */
+@source "../../index.html";
+@source "../../src/**/*.{js,jsx}";
+
+/* ---------- Typefaces (self-hosted, latin subset) ---------- */
+
+@font-face {
+  font-family: "Bodoni Moda";
+  src: url("/assets/fonts/bodoni-moda-latin.woff2") format("woff2-variations");
+  font-weight: 400 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Bodoni Moda";
+  src: url("/assets/fonts/bodoni-moda-italic-latin.woff2") format("woff2-variations");
+  font-weight: 400 900;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Inter Tight";
+  src: url("/assets/fonts/inter-tight-latin.woff2") format("woff2-variations");
+  font-weight: 300 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "JetBrains Mono";
+  src: url("/assets/fonts/jetbrains-mono-latin.woff2") format("woff2-variations");
+  font-weight: 400 600;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* ---------- Tokens ---------- */
+
+@theme {
+  /* Ink — layered near-blacks, slightly cool so gold reads warm against them */
+  --color-ink-950: #08090b;
+  --color-ink-900: #0b0d10;
+  --color-ink-850: #0f1216;
+  --color-ink-800: #14181d;
+  --color-ink-700: #1b2027;
+  --color-ink-600: #252b34;
+
+  /* Ivory — warm paper whites, never pure #fff */
+  --color-ivory-50: #f7f3ea;
+  --color-ivory-100: #efe9dc;
+  --color-ivory-300: #cdc5b6;
+  --color-ivory-500: #9b9384;
+  --color-ivory-700: #6b6455;
+
+  /* Gold — the single accent. Restraint is the whole point. */
+  --color-gold-300: #e8d3a0;
+  --color-gold-400: #d8bd7c;
+  --color-gold-500: #c8a55b;
+  --color-gold-600: #a9883f;
+  --color-gold-700: #7d642c;
+
+  /* Patina — a cold counterpoint used sparingly for "in progress" states */
+  --color-patina-400: #7fb5a8;
+  --color-patina-600: #47786e;
+
+  --font-display: "Bodoni Moda", "Didot", "Bodoni MT", Georgia, serif;
+  --font-sans: "Inter Tight", ui-sans-serif, system-ui, -apple-system, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, monospace;
+}
+
+/* ---------- Semantic layer ---------- */
+
+:root {
+  --bg: var(--color-ink-950);
+  --hairline: color-mix(in oklab, var(--color-gold-500) 22%, transparent);
+  --hairline-faint: color-mix(in oklab, var(--color-ivory-300) 10%, transparent);
+  --gutter: clamp(1.25rem, 5vw, 5.5rem);
+  --rule: 1px;
+
+  color-scheme: dark;
+}
+
+/* ---------- Base ----------
+   Inside @layer base so Tailwind utilities can override it — unlayered
+   rules would win over every utility regardless of specificity. */
+
+@layer base {
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--color-ivory-100);
+  font-family: var(--font-sans);
+  font-size: clamp(1rem, 0.96rem + 0.2vw, 1.0625rem);
+  line-height: 1.65;
+  font-feature-settings: "kern" 1, "liga" 1, "calt" 1;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
+}
+
+/* Lenis owns scrolling; native smooth scroll would fight it. */
+html.lenis,
+html.lenis body {
+  height: auto;
+}
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+
+h1,
+h2,
+h3,
+h4 {
+  font-family: var(--font-display);
+  font-weight: 400;
+  margin: 0;
+  color: var(--color-ivory-50);
+  /* High-contrast didone faces need tight tracking at display sizes. */
+  letter-spacing: -0.02em;
+  text-wrap: balance;
+}
+
+p {
+  text-wrap: pretty;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+::selection {
+  background: var(--color-gold-500);
+  color: var(--color-ink-950);
+}
+
+:focus-visible {
+  outline: 1px solid var(--color-gold-400);
+  outline-offset: 4px;
+  border-radius: 1px;
+}
+
+::-webkit-scrollbar {
+  width: 9px;
+}
+::-webkit-scrollbar-track {
+  background: var(--color-ink-950);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--color-ink-700);
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-gold-700);
+}
+}
+
+/* ---------- Reusable couture primitives ----------
+   In @layer components so per-element utilities can still adjust them. */
+
+@layer components {
+
+/* Mono eyebrow: small caps, wide tracking, gold. The connective tissue
+   that makes the whole page read as one system. */
+.eyebrow {
+  font-family: var(--font-mono);
+  font-size: 0.6875rem;
+  font-weight: 500;
+  letter-spacing: 0.32em;
+  text-transform: uppercase;
+  color: var(--color-gold-500);
+}
+
+/* A hairline that draws itself when its section scrolls in. */
+.rule {
+  height: var(--rule);
+  width: 100%;
+  background: linear-gradient(
+    90deg,
+    var(--hairline) 0%,
+    var(--hairline-faint) 55%,
+    transparent 100%
+  );
+  transform-origin: left center;
+}
+
+/* Bodoni Moda's opsz axis runs 6-96. The 96 master's hairlines are drawn
+   for ~150px+; below that they go sub-pixel on 1x screens and letters break
+   apart (the crossbar of "A" and hyphens vanish first). font-optical-sizing
+   auto doesn't help — it maps 35px to opsz 35, which still breaks. So each
+   tier pins an opsz that measured intact at its rendered size.
+
+   Only opsz is listed, so font-weight still drives the wght axis (the hero's
+   proximity effect depends on that). */
+.display {
+  font-family: var(--font-display);
+  font-variation-settings: "opsz" 16;
+  font-weight: 400;
+  line-height: 1.05;
+  letter-spacing: -0.01em;
+}
+
+/* Section heads, 34-64px. */
+.display-xl {
+  font-variation-settings: "opsz" 22;
+  line-height: 1;
+  letter-spacing: -0.02em;
+}
+
+/* Closing statement, 48-112px. */
+.display-statement {
+  font-variation-settings: "opsz" 18;
+  line-height: 0.92;
+  letter-spacing: -0.025em;
+}
+
+/* The name, 51-192px. */
+.display-hero {
+  font-variation-settings: "opsz" 30;
+  line-height: 0.9;
+  letter-spacing: -0.03em;
+}
+
+@media (min-width: 64rem) {
+  .display-statement {
+    font-variation-settings: "opsz" 32;
+  }
+  .display-hero {
+    font-variation-settings: "opsz" 72;
+  }
+}
+
+@media (min-width: 80rem) {
+  .display-hero {
+    font-variation-settings: "opsz" 96;
+  }
+}
+
+.display-italic {
+  font-style: italic;
+}
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
