@@ -2,7 +2,7 @@ import { MotionConfig } from "motion/react";
 import Nav from "./components/Nav";
 import Footer from "./components/Footer";
 import { Aurora, Grain, Spotlight } from "./components/Atmosphere";
-import { DataField } from "./components/Decorative";
+import RegressionField from "./components/RegressionField";
 import Hero from "./sections/Hero";
 import About from "./sections/About";
 import Experience from "./sections/Experience";
@@ -31,7 +31,7 @@ export default function App() {
 
       <Aurora />
       <Spotlight />
-      <DataField />
+      <RegressionField />
       <Nav />
 
       <div className="relative z-10">
