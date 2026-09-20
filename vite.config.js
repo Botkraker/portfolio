@@ -15,7 +15,7 @@ export default defineConfig({
         // so give them their own long-cached chunks.
         manualChunks: {
           motion: ["motion", "motion/react"],
-          gsap: ["gsap", "gsap/ScrollTrigger", "lenis"],
+          scroll: ["lenis"],
           react: ["react", "react-dom", "react-dom/client"],
         },
       },

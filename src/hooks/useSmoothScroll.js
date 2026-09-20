@@ -1,10 +1,6 @@
 import { useEffect } from "react";
 import Lenis from "lenis";
-import { gsap } from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useReducedMotion } from "../lib/motion";
-
-gsap.registerPlugin(ScrollTrigger);
 
 /**
  * Inertial scrolling. Anchor links are routed through Lenis too, otherwise
@@ -33,10 +29,6 @@ export function useSmoothScroll() {
       touchMultiplier: 1.6,
     });
 
-    // ScrollTrigger reads native scroll position, which Lenis no longer
-    // drives directly — without this, every scrubbed animation lags.
-    lenis.on("scroll", ScrollTrigger.update);
-
     let raf = 0;
     const loop = (time) => {
       lenis.raf(time);
@@ -64,7 +56,6 @@ export function useSmoothScroll() {
     return () => {
       document.removeEventListener("click", onClick);
       cancelAnimationFrame(raf);
-      lenis.off("scroll", ScrollTrigger.update);
       lenis.destroy();
     };
   }, [reduced]);

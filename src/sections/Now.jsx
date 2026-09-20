@@ -1,5 +1,6 @@
 import { Section, SectionHead, TagList } from "../components/Typography";
 import { LuxeCard } from "../components/Interactive";
+import { Sparkline } from "../components/Decorative";
 import { useReducedMotion } from "../lib/motion";
 import { now } from "../content.js";
 
@@ -36,6 +37,14 @@ export default function Now() {
               <p className="mt-5 max-w-[62ch] leading-relaxed text-ivory-300">
                 {item.blurb}
               </p>
+
+              {item.series && (
+                <Sparkline
+                  values={item.series}
+                  className="mt-8 h-8 w-full"
+                  color="var(--color-patina-400)"
+                />
+              )}
 
               <TagList items={item.tags} className="mt-auto pt-10" />
             </div>

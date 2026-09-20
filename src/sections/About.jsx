@@ -19,7 +19,6 @@ export default function About() {
         <ScrollReveal
           as="p"
           baseOpacity={0.14}
-          blurStrength={6}
           className="display text-[clamp(1.5rem,3vw,2.2rem)] leading-[1.25] text-ivory-50
                      max-w-[26ch] lg:col-span-6"
         >

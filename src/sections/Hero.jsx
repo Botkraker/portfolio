@@ -33,6 +33,25 @@ function ProximityWord({ text, className }) {
     let raf = 0;
     let pointer = null;
 
+    // Letter positions are cached rather than measured per frame. Reading
+    // getBoundingClientRect on every glyph on every pointer frame forces a
+    // synchronous layout of the largest text on the page; the boxes only
+    // actually move when the page scrolls or resizes, so invalidate then.
+    let centers = null;
+    const measure = () => {
+      centers = letters.map((letter) => {
+        const r = letter.getBoundingClientRect();
+        return { x: r.left + r.width / 2, y: r.top + r.height / 2 };
+      });
+    };
+    const invalidate = () => {
+      centers = null;
+    };
+
+    // Remembered so a glyph is only restyled when its weight really changes.
+    // Without this, a one-pixel cursor move rewrites and reflows every letter.
+    const weights = new Array(letters.length).fill(400);
+
     const onMove = (e) => {
       pointer = { x: e.clientX, y: e.clientY };
       if (!raf) raf = requestAnimationFrame(apply);
@@ -41,13 +60,17 @@ function ProximityWord({ text, className }) {
     const apply = () => {
       raf = 0;
       if (!pointer) return;
-      letters.forEach((letter) => {
-        const r = letter.getBoundingClientRect();
-        const dx = pointer.x - (r.left + r.width / 2);
-        const dy = pointer.y - (r.top + r.height / 2);
-        const dist = Math.hypot(dx, dy);
+      if (!centers) measure();
+      letters.forEach((letter, i) => {
+        const c = centers[i];
+        const dist = Math.hypot(pointer.x - c.x, pointer.y - c.y);
         const t = Math.max(0, 1 - dist / RADIUS);
-        letter.style.fontWeight = String(Math.round(400 + t * 500));
+        // Quantised to 25-unit steps: finer than the eye reads, coarse
+        // enough that most frames write nothing at all.
+        const weight = Math.round((400 + t * 500) / 25) * 25;
+        if (weight === weights[i]) return;
+        weights[i] = weight;
+        letter.style.fontWeight = String(weight);
         letter.style.color = t > 0.05
           ? `color-mix(in oklab, var(--color-gold-300) ${t * 85}%, var(--color-ivory-50))`
           : "";
@@ -56,16 +79,21 @@ function ProximityWord({ text, className }) {
 
     const onLeave = () => {
       pointer = null;
-      letters.forEach((l) => {
+      letters.forEach((l, i) => {
+        weights[i] = 400;
         l.style.fontWeight = "";
         l.style.color = "";
       });
     };
 
     window.addEventListener("pointermove", onMove, { passive: true });
+    window.addEventListener("scroll", invalidate, { passive: true });
+    window.addEventListener("resize", invalidate);
     document.documentElement.addEventListener("pointerleave", onLeave);
     return () => {
       window.removeEventListener("pointermove", onMove);
+      window.removeEventListener("scroll", invalidate);
+      window.removeEventListener("resize", invalidate);
       document.documentElement.removeEventListener("pointerleave", onLeave);
       if (raf) cancelAnimationFrame(raf);
     };

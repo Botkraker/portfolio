@@ -89,6 +89,8 @@ export const now = [
     blurb:
       "Adapting an NLP + ML + SHAP pipeline (based on Ibrahim, Khan & Kaplan 2025) to predict the Tunisian stock market (BVMT/Tunindex) from news sentiment. Zero budget, running entirely locally. Data extraction has been complete since September 2026.",
     tags: ["NLP", "SHAP", "scikit-learn", "Sentiment Analysis"],
+    // Ornamental sparkline only — a shape, not a reading of the index.
+    series: [28, 34, 31, 46, 42, 58, 54, 71, 66, 84],
   },
   {
     title: "Road Map Project",
@@ -96,6 +98,7 @@ export const now = [
     blurb:
       "Team project mapping road and sidewalk degradation for the Tunisian Ministère de l'Équipement. I own Work Package 1 (Données & Capture): the capture app, the annotated dataset, ground-truth measurements, the annotation guide, and on-device anonymisation.",
     tags: ["Data Collection", "Annotation", "Computer Vision", "Privacy"],
+    series: [12, 19, 17, 30, 41, 38, 52, 63, 61, 78],
   },
 ];
 
@@ -189,6 +192,44 @@ export const skillGroups = [
   {
     title: "Infrastructure & Networking",
     items: ["Proxmox VE", "WireGuard", "EVE-NG", "VLANs", "OSPF/EIGRP", "ACLs", "AAA/RADIUS"],
+  },
+];
+
+/**
+ * Soft skills, each tied to the thing that proves it. A bare list of
+ * adjectives reads as filler — every candidate claims teamwork — so nothing
+ * goes in here without a specific piece of work behind it.
+ */
+export const waysOfWorking = [
+  {
+    title: "Ownership on a team",
+    proof:
+      "One of four on the Road Map project for the Ministère de l'Équipement, holding Work Package 1 end to end while it stays in step with the rest of the team.",
+  },
+  {
+    title: "Teaching",
+    proof:
+      "Teach cybersecurity sessions to a mini club at Securinets, which means explaining attacks and defenses to members who are newer to it than I am.",
+  },
+  {
+    title: "Fast ramp-up",
+    proof:
+      "Three internships, three unfamiliar stacks: .NET Core 8, then NestJS and Prisma, then LLM tooling. New programming languages are what I pick up quickest.",
+  },
+  {
+    title: "Technical writing",
+    proof:
+      "Wrote the annotation guide the Road Map team labels against, so a dataset built by several pairs of hands stays consistent.",
+  },
+  {
+    title: "Presenting",
+    proof:
+      "Comfortable defending work in front of a room — project defenses, demos, and walking non-specialists through a system.",
+  },
+  {
+    title: "Resourcefulness",
+    proof:
+      "The Tunindex sentiment pipeline runs on zero budget and entirely on local hardware, so every design choice has to earn its cost.",
   },
 ];
 

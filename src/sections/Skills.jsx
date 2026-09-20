@@ -1,7 +1,7 @@
 import { motion } from "motion/react";
 import { Section, SectionHead, Eyebrow, Rule } from "../components/Typography";
-import { skillGroups, certifications, languages } from "../content";
-import { DaringBadge, DecorativeAccent } from "../components/Decorative";
+import { skillGroups, waysOfWorking, certifications, languages } from "../content";
+import { DaringBadge, DecorativeAccent, MatrixGrid } from "../components/Decorative";
 
 const rise = {
   initial: { opacity: 0, y: 20 },
@@ -57,6 +57,35 @@ export default function Skills() {
       </ul>
 
       <Rule className="mt-12 mb-[clamp(2.5rem,5vw,4rem)]" />
+
+      {/* Soft skills, set as claim + evidence. The claim alone would be the
+          same sentence every other candidate writes; the evidence is what
+          makes it worth reading. */}
+      <motion.div
+        {...rise}
+        transition={{ duration: 0.9, ease: [0.16, 1, 0.3, 1] }}
+        className="mb-[clamp(2.5rem,5vw,4rem)]"
+      >
+        <div className="mb-8 flex items-center gap-4">
+          <Eyebrow>How I work</Eyebrow>
+          <MatrixGrid size={4} className="w-10 shrink-0 opacity-70" />
+        </div>
+
+        <dl className="grid gap-x-10 gap-y-7 md:grid-cols-2">
+          {waysOfWorking.map((item) => (
+            <div key={item.title} className="border-l border-gold-600/25 pl-5">
+              <dt className="font-mono text-[0.7rem] uppercase tracking-[0.22em] text-gold-400">
+                {item.title}
+              </dt>
+              <dd className="mt-2.5 max-w-[46ch] font-sans text-[0.95rem] leading-relaxed text-ivory-300">
+                {item.proof}
+              </dd>
+            </div>
+          ))}
+        </dl>
+      </motion.div>
+
+      <Rule className="mb-[clamp(2.5rem,5vw,4rem)]" />
 
       <div className="grid gap-[clamp(2.5rem,5vw,4rem)] md:grid-cols-2 md:gap-12">
         <motion.div

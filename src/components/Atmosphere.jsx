@@ -36,7 +36,10 @@ export function Grain() {
       <canvas ref={ref} className="hidden" aria-hidden="true" />
       <div
         aria-hidden="true"
-        className="pointer-events-none fixed inset-0 z-50 opacity-[0.035] mix-blend-overlay"
+        // No mix-blend-mode: a full-viewport blended layer forces the whole
+        // page to re-composite on every frame. Plain low opacity reads the
+        // same at this strength and costs nothing while scrolling.
+        className="pointer-events-none fixed inset-0 z-50 opacity-[0.028]"
         style={{ backgroundImage: "var(--grain-url)", backgroundRepeat: "repeat" }}
       />
     </>

@@ -134,15 +134,40 @@ export function LuxeCard({ children, className, ...props }) {
  */
 export function MediaFrame({ src, className, ratioFallback = 1.6 }) {
   const videoRef = useRef(null);
+  const frameRef = useRef(null);
   const [ratio, setRatio] = useState(ratioFallback);
   const [letterboxed, setLetterboxed] = useState(false);
   const [failed, setFailed] = useState(false);
+  const [near, setNear] = useState(false);
   const hasHover = useHasHover();
   const reduced = useReducedMotion();
 
+  // The six captures total 16 MB. Attaching every src up front means six
+  // requests competing with the fonts and the first paint, so a frame only
+  // gets its source once it is within a screen of the viewport.
+  useEffect(() => {
+    const frame = frameRef.current;
+    if (!frame) return;
+    if (!("IntersectionObserver" in window)) {
+      setNear(true);
+      return;
+    }
+    const observer = new IntersectionObserver(
+      (entries) => {
+        if (entries.some((e) => e.isIntersecting)) {
+          setNear(true);
+          observer.disconnect();
+        }
+      },
+      { rootMargin: "400px 0px" }
+    );
+    observer.observe(frame);
+    return () => observer.disconnect();
+  }, []);
+
   useEffect(() => {
     const video = videoRef.current;
-    if (!video) return;
+    if (!video || !near) return;
 
     const MIN = 0.62;
     const MAX = 2;
@@ -184,7 +209,7 @@ export function MediaFrame({ src, className, ratioFallback = 1.6 }) {
       video.removeEventListener("error", onError);
       observer?.disconnect();
     };
-  }, [hasHover, reduced]);
+  }, [hasHover, reduced, near]);
 
   const play = () => hasHover && !reduced && videoRef.current?.play().catch(() => {});
   const stop = () => {
@@ -199,6 +224,7 @@ export function MediaFrame({ src, className, ratioFallback = 1.6 }) {
 
   return (
     <div
+      ref={frameRef}
       onPointerEnter={play}
       onPointerLeave={stop}
       className={cn(
@@ -214,8 +240,8 @@ export function MediaFrame({ src, className, ratioFallback = 1.6 }) {
         muted
         loop
         playsInline
-        preload="metadata"
-        src={src}
+        preload={near ? "metadata" : "none"}
+        src={near ? src : undefined}
         aria-hidden="true"
         className={cn(
           "h-full w-full transition-[transform,filter] duration-[900ms] ease-[cubic-bezier(0.16,1,0.3,1)]",
