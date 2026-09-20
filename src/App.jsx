@@ -2,6 +2,7 @@ import { MotionConfig } from "motion/react";
 import Nav from "./components/Nav";
 import Footer from "./components/Footer";
 import { Aurora, Grain, Spotlight } from "./components/Atmosphere";
+import { FloatingShapes } from "./components/Decorative";
 import Hero from "./sections/Hero";
 import About from "./sections/About";
 import Experience from "./sections/Experience";
@@ -30,6 +31,7 @@ export default function App() {
 
       <Aurora />
       <Spotlight />
+      <FloatingShapes />
       <Nav />
 
       <div className="relative z-10">

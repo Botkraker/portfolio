@@ -63,14 +63,43 @@
   --color-ivory-500: #9b9384;
   --color-ivory-700: #6b6455;
 
-  /* Gold — the single accent. Restraint is the whole point. */
-  --color-gold-300: #e8d3a0;
-  --color-gold-400: #d8bd7c;
-  --color-gold-500: #c8a55b;
-  --color-gold-600: #a9883f;
-  --color-gold-700: #7d642c;
+  /* Gold — the primary accent. Richer, more vibrant */
+  --color-gold-200: #f5e6c8;
+  --color-gold-300: #ffe8a0;
+  --color-gold-400: #ffd966;
+  --color-gold-500: #ffb600;
+  --color-gold-600: #ffa500;
+  --color-gold-700: #cc7700;
 
-  /* Patina — a cold counterpoint used sparingly for "in progress" states */
+  /* Emerald — vibrant tech energy */
+  --color-emerald-300: #7fffd4;
+  --color-emerald-400: #6ee7b7;
+  --color-emerald-500: #1dcf7d;
+  --color-emerald-600: #00d96f;
+
+  /* Coral — bold playful energy */
+  --color-coral-300: #ff9999;
+  --color-coral-400: #ff6b5b;
+  --color-coral-500: #ff4444;
+  --color-coral-600: #e63946;
+
+  /* Purple — creative electricity */
+  --color-purple-300: #e0aaff;
+  --color-purple-400: #d480ff;
+  --color-purple-500: #c21aff;
+  --color-purple-600: #a200ff;
+
+  /* Hot Pink — maximalist daring */
+  --color-pink-400: #ff1493;
+  --color-pink-500: #ff00cc;
+  --color-pink-600: #e600b8;
+
+  /* Cyan — electric accent */
+  --color-cyan-400: #00ffff;
+  --color-cyan-500: #00e5ff;
+  --color-cyan-600: #00b8d4;
+
+  /* Patina — cool contrast */
   --color-patina-400: #7fb5a8;
   --color-patina-600: #47786e;
 
@@ -118,6 +147,11 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   overflow-x: hidden;
+  background-image:
+    radial-gradient(circle at 20% 50%, rgba(255, 181, 0, 0.03) 0%, transparent 50%),
+    radial-gradient(circle at 80% 80%, rgba(255, 68, 68, 0.02) 0%, transparent 50%),
+    radial-gradient(circle at 40% 0%, rgba(194, 26, 255, 0.02) 0%, transparent 40%);
+  background-attachment: fixed;
 }
 
 /* Lenis owns scrolling; native smooth scroll would fight it. */
@@ -268,6 +302,56 @@ ul {
 }
 }
 
+/* Maximalist ornamental styles and animations */
+
+@keyframes shimmer {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.7; }
+}
+
+@keyframes glow-pulse {
+  0%, 100% {
+    filter: drop-shadow(0 0 8px rgba(255, 181, 0, 0.4));
+  }
+  50% {
+    filter: drop-shadow(0 0 20px rgba(255, 181, 0, 0.8));
+  }
+}
+
+@keyframes float-rise {
+  0% { transform: translateY(0) rotate(0deg); }
+  100% { transform: translateY(-20px) rotate(5deg); }
+}
+
+.shimmer-text {
+  animation: shimmer 3s ease-in-out infinite;
+}
+
+.glow-effect {
+  animation: glow-pulse 3s ease-in-out infinite;
+}
+
+.float-anim {
+  animation: float-rise 2s ease-in-out infinite;
+}
+
+.glass-effect {
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.neon-glow {
+  box-shadow: 0 0 20px currentColor;
+}
+
+.text-gradient {
+  background: linear-gradient(90deg, var(--color-gold-400), var(--color-coral-400), var(--color-purple-500));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,
@@ -276,5 +360,11 @@ ul {
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
     scroll-behavior: auto !important;
+  }
+
+  .shimmer-text,
+  .glow-effect,
+  .float-anim {
+    animation: none !important;
   }
 }

@@ -2,6 +2,7 @@ import { motion } from "motion/react";
 import { Section, SectionHead } from "../components/Typography";
 import ScrollReveal from "../components/reactbits/ScrollReveal";
 import { about } from "../content";
+import { DecorativeAccent, CornerBracket } from "../components/Decorative";
 
 /**
  * The lede is set as a pull-quote in the display serif; the supporting
@@ -32,11 +33,14 @@ export default function About() {
           transition={{ duration: 1, ease: [0.16, 1, 0.3, 1], delay: 0.15 }}
           className="relative lg:col-span-5 lg:col-start-8 lg:pl-10"
         >
-          {/* The one margin ornament: a gold hairline holding the right column. */}
+          {/* Decorative corner bracket for visual richness */}
+          <CornerBracket position="top-left" color="emerald" size="md" />
+
+          {/* Animated gradient hairline with color shifts */}
           <span
             aria-hidden="true"
             className="pointer-events-none absolute left-0 top-0 hidden h-full w-px
-                       bg-gradient-to-b from-gold-500/35 via-gold-500/10 to-transparent lg:block"
+                       bg-gradient-to-b from-emerald-500/30 via-purple-500/15 via-gold-500/10 to-transparent lg:block"
           />
           <div className="space-y-6">
             {about.paragraphs.map((p) => (
