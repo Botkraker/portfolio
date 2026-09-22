@@ -1,5 +1,5 @@
 import { Section, SectionHead, Rule, TagList } from "../components/Typography";
-import { LuxeCard } from "../components/Interactive";
+import { GoldLink, LuxeCard } from "../components/Interactive";
 import { projects, moreProjects } from "../content";
 import ProjectEntry from "./ProjectEntry";
 import { DaringBadge, DecorativeAccent } from "../components/Decorative";
@@ -67,6 +67,18 @@ export default function Projects() {
                   )}
 
                   <TagList items={item.tags} className="mt-auto pt-8" />
+
+                  {item.link && (
+                    <div className="pt-6">
+                      <GoldLink
+                        href={item.link}
+                        external
+                        className="font-mono text-[0.65rem] uppercase tracking-[0.2em]"
+                      >
+                        View code <span aria-hidden="true">↗</span>
+                      </GoldLink>
+                    </div>
+                  )}
                 </div>
               </LuxeCard>
             </li>

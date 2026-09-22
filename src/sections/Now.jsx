@@ -1,5 +1,6 @@
 import { Section, SectionHead, TagList } from "../components/Typography";
-import { LuxeCard } from "../components/Interactive";
+import { cn } from "../lib/cn";
+import { GoldLink, LuxeCard } from "../components/Interactive";
 import { Sparkline } from "../components/Decorative";
 import { useReducedMotion } from "../lib/motion";
 import { now } from "../content.js";
@@ -19,7 +20,14 @@ export default function Now() {
         headingId="now-heading"
       />
 
-      <div className="grid gap-6 md:grid-cols-2 md:gap-8">
+      {/* A lone card in a two-column grid reads as a gap where something
+          was removed, so the split only appears once there are two. */}
+      <div
+        className={cn(
+          "grid gap-6 md:gap-8",
+          now.length > 1 ? "md:grid-cols-2" : "max-w-[46rem]"
+        )}
+      >
         {now.map((item) => (
           /* `grid` lets LuxeCard's inner content wrapper stretch to the full
              row height, which `flex` alone would not do from outside. */
@@ -47,6 +55,18 @@ export default function Now() {
               )}
 
               <TagList items={item.tags} className="mt-auto pt-10" />
+
+              {item.link && (
+                <div className="pt-6">
+                  <GoldLink
+                    href={item.link}
+                    external
+                    className="font-mono text-[0.65rem] uppercase tracking-[0.2em]"
+                  >
+                    View code <span aria-hidden="true">↗</span>
+                  </GoldLink>
+                </div>
+              )}
             </div>
           </LuxeCard>
         ))}

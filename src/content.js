@@ -87,18 +87,11 @@ export const now = [
     title: "Tunindex Sentiment Pipeline",
     status: "In progress",
     blurb:
-      "Adapting an NLP + ML + SHAP pipeline (based on Ibrahim, Khan & Kaplan 2025) to predict the Tunisian stock market (BVMT/Tunindex) from news sentiment. Zero budget, running entirely locally. Data extraction has been complete since September 2026.",
-    tags: ["NLP", "SHAP", "scikit-learn", "Sentiment Analysis"],
+      "Testing whether French-language news sentiment improves next-session prediction of the Tunisian index (BVMT) beyond a price-only baseline, adapting Ibrahim, Khan & Kaplan (2025) to a frontier market. Nine scrapers feed 41,597 curated headlines through relevance filtering, near-duplicate removal and trading-calendar alignment, versioned with DVC. Both hypotheses are pre-registered and neither has been tested yet — no sentiment or forecasting result is claimed. Zero budget, running entirely locally.",
+    link: "https://github.com/Botkraker/MarketPrediction",
+    tags: ["NLP", "Web Scraping", "DVC", "Walk-forward Validation"],
     // Ornamental sparkline only — a shape, not a reading of the index.
     series: [28, 34, 31, 46, 42, 58, 54, 71, 66, 84],
-  },
-  {
-    title: "Road Map Project",
-    status: "In progress",
-    blurb:
-      "Team project mapping road and sidewalk degradation for the Tunisian Ministère de l'Équipement. I own Work Package 1 (Données & Capture): the capture app, the annotated dataset, ground-truth measurements, the annotation guide, and on-device anonymisation.",
-    tags: ["Data Collection", "Annotation", "Computer Vision", "Privacy"],
-    series: [12, 19, 17, 30, 41, 38, 52, 63, 61, 78],
   },
 ];
 
@@ -145,10 +138,47 @@ export const projects = [
     eyebrow: "MLOps",
     title: "Computer Vision MLOps Pipeline",
     blurb:
-      "An MLOps pipeline automating the training, versioning, and deployment of a computer vision model, applying experiment tracking and model-registry practices for reproducibility.",
+      "A reproducible image-classification pipeline built around a ResNet18 backbone with k-fold cross-validation, wired into DVC stages so training and evaluation rerun only when their inputs actually change.",
+    detail:
+      "Hyperparameters live in params.yaml rather than in the code, data and model artefacts are version-tracked, and a GitHub Actions workflow runs on every push, so a result can be traced back to the exact data and configuration that produced it.",
     video: null,
-    tags: ["Python", "MLOps", "MLflow"],
-    link: "https://github.com/Botkraker/DevOps-MLOps-Labs",
+    tags: ["PyTorch", "ResNet18", "DVC", "GitHub Actions", "MLOps"],
+    link: "https://github.com/Botkraker/classification-pytorch",
+  },
+  {
+    id: "project-block-blast",
+    index: "05",
+    eyebrow: "Reinforcement Learning",
+    title: "Block Blast AI",
+    subtitle: "An agent that teaches itself to play",
+    blurb:
+      "A MaskablePPO agent trained on a custom Gymnasium environment for an 8×8 block puzzle. Nobody tells it how to play: it plays millions of games and works out a strategy from the score alone.",
+    detail:
+      "Every agent is scored on the same 1,000 held-out games with fixed seeds, reported with 95% confidence intervals. The afterstate policy averages 1,299 points against the greedy baseline's 296 — 4.4× better, with the difference between them falling between +935 and +1,073 — and survives 40 rounds to greedy's 12. The simulator is pure Python and NumPy under 179 tests.",
+    video: asset("assets/projects/BlockBlast.mp4"),
+    tags: ["PyTorch", "Reinforcement Learning", "MaskablePPO", "Gymnasium", "NumPy", "pytest"],
+    link: "https://github.com/Botkraker/block-blast-AI",
+  },
+  {
+    id: "project-roadscan",
+    index: "06",
+    eyebrow: "Computer Vision · Data Engineering",
+    title: "RoadScan",
+    subtitle: "Damage detection from dashcam video — in progress",
+    blurb:
+      "A team project mapping road and sidewalk degradation for the Tunisian Ministère de l'Équipement. I own Work Package 1 (Données & Capture): the capture app, the annotated dataset, ground-truth measurements, the annotation guide, and on-device anonymisation.",
+    detail:
+      "Most of that work is reconciling six public sources into one leakage-safe dataset: 17,732 images mapped to three classes — pothole, crack, manhole — against a single class map that every conversion script reads, then split 70/15/15 by group so no video or near-duplicate lands on two sides at once and the test set measures genuinely unseen scenes. The first run reaches mAP@0.5 of 0.45 on dashcam validation but only 0.08 on my own street footage; closing that domain gap with self-labelled frames is the current work.",
+    video: null,
+    tags: [
+      "YOLO",
+      "Object Detection",
+      "Dataset Curation",
+      "Annotation",
+      "DVC",
+      "Privacy",
+    ],
+    link: "https://github.com/Botkraker/RoadScanCV",
   },
 ];
 
@@ -173,6 +203,22 @@ export const moreProjects = [
       "Full-scale university network topology designed in EVE-NG: VLAN/trunking segmentation, dynamic routing (OSPF/EIGRP), and security via ACLs, firewall rules, and AAA/RADIUS authentication.",
     metric: null,
     tags: ["EVE-NG", "VLANs", "OSPF/EIGRP"],
+  },
+  {
+    title: "Travelling Salesman via Genetic Algorithm",
+    blurb:
+      "A genetic-algorithm solver for the travelling salesman problem — selection, crossover and mutation over a population of candidate routes — with a live visualisation of each generation converging on a shorter tour.",
+    metric: null,
+    tags: ["Python", "Genetic Algorithms", "Optimization"],
+    link: "https://github.com/Botkraker/salesmanproblemsolvedusingGeneticAlgorithm",
+  },
+  {
+    title: "Game Recommender",
+    blurb:
+      "A containerised full-stack recommender: a Django REST API with JWT auth over PostgreSQL, a React and Vite front end, and a dev-container setup that brings the whole stack up with one command.",
+    metric: null,
+    tags: ["Django", "PostgreSQL", "React", "Docker"],
+    link: null,
   },
 ];
 
@@ -204,7 +250,7 @@ export const waysOfWorking = [
   {
     title: "Ownership on a team",
     proof:
-      "One of four on the Road Map project for the Ministère de l'Équipement, holding Work Package 1 end to end while it stays in step with the rest of the team.",
+      "One of four on RoadScan, the road-damage project for the Ministère de l'Équipement, holding Work Package 1 end to end while it stays in step with the rest of the team.",
   },
   {
     title: "Teaching",
