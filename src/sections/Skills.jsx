@@ -6,7 +6,7 @@ import { DaringBadge, DecorativeAccent, MatrixGrid } from "../components/Decorat
 const rise = {
   initial: { opacity: 0, y: 20 },
   whileInView: { opacity: 1, y: 0 },
-  viewport: { once: true, margin: "-12%" },
+  viewport: { once: true, margin: "0px 0px -12% 0px" },
 };
 
 /**

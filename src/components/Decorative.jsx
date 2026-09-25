@@ -13,7 +13,7 @@ export function AxisRule({ ticks = 12, className = "" }) {
       <motion.div
         initial={{ scaleX: 0 }}
         whileInView={{ scaleX: 1 }}
-        viewport={{ once: true, margin: "-10%" }}
+        viewport={{ once: true, margin: "0px 0px -10% 0px" }}
         transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1] }}
         className="h-px w-full origin-left bg-[var(--hairline-faint)]"
       />
@@ -69,7 +69,7 @@ export function Sparkline({ values, className = "", color = "var(--color-gold-50
         vectorEffect="non-scaling-stroke"
         initial={{ pathLength: 0, opacity: 0 }}
         whileInView={{ pathLength: 1, opacity: 0.85 }}
-        viewport={{ once: true, margin: "-15%" }}
+        viewport={{ once: true, margin: "0px 0px -15% 0px" }}
         transition={{ duration: 1.4, ease: [0.16, 1, 0.3, 1] }}
       />
     </svg>
@@ -108,7 +108,7 @@ export function MatrixGrid({ size = 4, className = "" }) {
           }}
           initial={{ opacity: 0, scale: 0.6 }}
           whileInView={{ opacity: 1, scale: 1 }}
-          viewport={{ once: true, margin: "-10%" }}
+          viewport={{ once: true, margin: "0px 0px -10% 0px" }}
           transition={{
             duration: 0.5,
             delay: i * 0.018,

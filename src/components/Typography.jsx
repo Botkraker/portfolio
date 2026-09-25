@@ -2,13 +2,21 @@ import { motion } from "motion/react";
 import { cn } from "../lib/cn";
 import { useReducedMotion } from "../lib/motion";
 
-/** Mono, wide-tracked, gold. The label style used across every section. */
+/**
+ * Mono, wide-tracked, gold. The label style used across every section.
+ *
+ * Reveal margins here and below are written out as four sides on purpose.
+ * A bare "-15%" is a rootMargin, so it insets left and right as well as top
+ * and bottom — on a wide viewport that is a ~200px dead strip down each edge,
+ * and a short left-aligned label like "02 — Experience" sits entirely inside
+ * it. It never intersects, so it never reveals and stays invisible for good.
+ */
 export function Eyebrow({ children, className }) {
   return (
     <motion.p
       initial={{ opacity: 0, y: 8 }}
       whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, margin: "-15%" }}
+      viewport={{ once: true, margin: "0px 0px -15% 0px" }}
       transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
       className={cn("eyebrow", className)}
     >
@@ -43,7 +51,7 @@ export function RevealText({
       className={className}
       initial="hidden"
       whileInView="visible"
-      viewport={{ once: true, margin: "-12%" }}
+      viewport={{ once: true, margin: "0px 0px -12% 0px" }}
       transition={{ staggerChildren: stagger, delayChildren: delay }}
       aria-label={String(children)}
     >
@@ -78,7 +86,7 @@ export function Rule({ className, delay = 0 }) {
       className={cn("rule", className)}
       initial={reduced ? { scaleX: 1 } : { scaleX: 0 }}
       whileInView={{ scaleX: 1 }}
-      viewport={{ once: true, margin: "-10%" }}
+      viewport={{ once: true, margin: "0px 0px -10% 0px" }}
       transition={{ duration: 1.3, ease: [0.16, 1, 0.3, 1], delay }}
     />
   );

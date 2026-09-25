@@ -232,11 +232,20 @@ export default function RegressionField() {
       ctx.globalAlpha = 1;
     };
 
+    // scrollHeight is a layout read, so asking for it inside the scroll
+    // handler forced a synchronous reflow on every single scroll event —
+    // the largest JS cost on the page in a CPU profile. Measure it once and
+    // let a ResizeObserver refresh it when the document height actually
+    // changes, which it does when the project filter swaps its list.
+    let maxScroll = 0;
+    const measureMax = () => {
+      maxScroll = document.documentElement.scrollHeight - window.innerHeight;
+    };
+
     /** Fraction of the page scrolled, 0 at the top and 1 at the very bottom. */
     const scrollProgress = () => {
-      const max = document.documentElement.scrollHeight - window.innerHeight;
-      if (max <= 0) return 1;
-      return Math.min(1, Math.max(0, window.scrollY / max));
+      if (maxScroll <= 0) return 1;
+      return Math.min(1, Math.max(0, window.scrollY / maxScroll));
     };
 
     const settle = (p) => {
@@ -254,6 +263,7 @@ export default function RegressionField() {
     // Reduced motion gets the finished plot: the answer, none of the search.
     if (reduced) {
       settle();
+      measureMax();
       draw();
       const onResizeStatic = () => {
         resize();
@@ -305,14 +315,25 @@ export default function RegressionField() {
 
     const onResize = () => {
       resize();
+      measureMax();
       target = scrollProgress();
       wake();
     };
+
+    // Height changes that are not window resizes — filtering the project
+    // list, media settling — still have to refresh the cached maximum.
+    const heightObserver = new ResizeObserver(() => {
+      measureMax();
+      target = scrollProgress();
+      wake();
+    });
+    heightObserver.observe(document.body);
 
     window.addEventListener("scroll", onScroll, { passive: true });
     window.addEventListener("resize", onResize);
 
     // First frame before the library arrives, so the page is never blank.
+    measureMax();
     target = scrollProgress();
     current = target;
     draw();
@@ -367,6 +388,7 @@ export default function RegressionField() {
       cancelled = true;
       window.removeEventListener("scroll", onScroll);
       window.removeEventListener("resize", onResize);
+      heightObserver.disconnect();
       if (raf) cancelAnimationFrame(raf);
     };
   }, [reduced]);

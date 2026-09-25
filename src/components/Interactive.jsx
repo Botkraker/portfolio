@@ -121,7 +121,9 @@ export function LuxeCard({ children, className, ...props }) {
             "radial-gradient(420px circle at var(--mx, 50%) var(--my, 50%), color-mix(in oklab, var(--color-gold-500) 7%, transparent), transparent 70%)",
         }}
       />
-      <div className="relative">{children}</div>
+      {/* h-full so a card given a fixed row height can lay its content out
+          against the full height rather than hugging the text. */}
+      <div className="relative h-full">{children}</div>
     </div>
   );
 }
@@ -142,9 +144,14 @@ export function MediaFrame({ src, className, ratioFallback = 1.6 }) {
   const hasHover = useHasHover();
   const reduced = useReducedMotion();
 
-  // The six captures total 16 MB. Attaching every src up front means six
-  // requests competing with the fonts and the first paint, so a frame only
-  // gets its source once it is within a screen of the viewport.
+  // The captures total 16 MB. Attaching every src up front means six requests
+  // competing with the fonts and the first paint, so a frame only gets its
+  // source once it is within a screen of the viewport — and gives it back
+  // once it is well clear of it. A held <video> keeps a decoded buffer alive
+  // for as long as it has a source, so on a page with seven of them the
+  // release matters as much as the deferral. The frame keeps its measured
+  // aspect ratio in state across the unload, so the box never changes size
+  // and nothing below it moves.
   useEffect(() => {
     const frame = frameRef.current;
     if (!frame) return;
@@ -153,13 +160,8 @@ export function MediaFrame({ src, className, ratioFallback = 1.6 }) {
       return;
     }
     const observer = new IntersectionObserver(
-      (entries) => {
-        if (entries.some((e) => e.isIntersecting)) {
-          setNear(true);
-          observer.disconnect();
-        }
-      },
-      { rootMargin: "400px 0px" }
+      ([entry]) => setNear(entry.isIntersecting),
+      { rootMargin: "800px 0px" }
     );
     observer.observe(frame);
     return () => observer.disconnect();
@@ -167,7 +169,14 @@ export function MediaFrame({ src, className, ratioFallback = 1.6 }) {
 
   useEffect(() => {
     const video = videoRef.current;
-    if (!video || !near) return;
+    if (!video) return;
+    if (!near) {
+      // Removing the attribute alone leaves the loaded stream attached;
+      // load() is what makes the element release it.
+      video.removeAttribute("src");
+      video.load();
+      return;
+    }
 
     const MIN = 0.62;
     const MAX = 2;

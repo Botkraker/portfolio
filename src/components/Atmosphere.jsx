@@ -1,5 +1,146 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useHasHover, useReducedMotion } from "../lib/motion";
+
+/**
+ * A soft radial glow whose CSS `filter: blur()` has been baked into a bitmap.
+ *
+ * A live blur on a large layer that also animates is re-rendered on every
+ * frame — the page's two blooms and the cursor light were the single biggest
+ * cost while scrolling, several times everything else combined. The glow
+ * never changes shape, so it is rendered once, blurred by the canvas, and the
+ * element just moves the finished image. What reaches the screen is the same
+ * picture: the element's background clipped to its rounded box, then blurred.
+ *
+ * Until the bitmap is ready — and in browsers whose canvas has no `filter` —
+ * it renders the original CSS blur, so nothing ever looks different.
+ */
+function Bloom({ className, color, stop, blur, style, innerRef }) {
+  const ref = useRef(null);
+  const [baked, setBaked] = useState(null);
+
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+    if (!("filter" in (document.createElement("canvas").getContext("2d") ?? {}))) return;
+
+    let url = null;
+    let frame = 0;
+    let cancelled = false;
+
+    const bake = () => {
+      frame = 0;
+      // Layout size, not getBoundingClientRect: the drift animation scales
+      // the box, and the bitmap has to match the untransformed element.
+      const w = el.offsetWidth;
+      const h = el.offsetHeight;
+      if (!w || !h) return;
+
+      // The glow is nearly featureless, so a quarter-resolution bitmap scaled
+      // back up is indistinguishable and a sixteenth of the pixels to blur.
+      const s = 0.25;
+      const pad = blur * 3; // a Gaussian is spent by three standard deviations
+      const cw = Math.ceil((w + pad * 2) * s);
+      const ch = Math.ceil((h + pad * 2) * s);
+
+      const [r, g, b, a] = rgbaOf(el, color);
+
+      // Shape first, unblurred: the gradient clipped to the rounded box,
+      // exactly as CSS paints the background before the filter runs.
+      const shape = document.createElement("canvas");
+      shape.width = cw;
+      shape.height = ch;
+      const sc = shape.getContext("2d");
+      const cx = cw / 2;
+      const cy = ch / 2;
+      // A CSS `circle` gradient defaults to farthest-corner.
+      const radius = (Math.hypot(w, h) / 2) * s;
+      const gradient = sc.createRadialGradient(cx, cy, 0, cx, cy, radius);
+      gradient.addColorStop(0, `rgba(${r}, ${g}, ${b}, ${a})`);
+      // The same colour at zero alpha rather than `transparent`: canvas
+      // gradients interpolate unpremultiplied, and fading to transparent
+      // black would muddy the edge that CSS keeps clean.
+      gradient.addColorStop(stop, `rgba(${r}, ${g}, ${b}, 0)`);
+      sc.fillStyle = gradient;
+      sc.beginPath();
+      sc.ellipse(cx, cy, (w / 2) * s, (h / 2) * s, 0, 0, Math.PI * 2);
+      sc.fill();
+
+      // Then the blur, drawn into a second canvas so it isn't clipped.
+      const out = document.createElement("canvas");
+      out.width = cw;
+      out.height = ch;
+      const oc = out.getContext("2d");
+      oc.filter = `blur(${blur * s}px)`;
+      oc.drawImage(shape, 0, 0);
+
+      out.toBlob((blob) => {
+        if (cancelled || !blob) return;
+        if (url) URL.revokeObjectURL(url);
+        url = URL.createObjectURL(blob);
+        setBaked({ url, pad });
+      });
+    };
+
+    // Viewport-sized blooms change size with the window, so re-bake then.
+    const observer = new ResizeObserver(() => {
+      if (!frame) frame = requestAnimationFrame(bake);
+    });
+    observer.observe(el);
+
+    return () => {
+      cancelled = true;
+      observer.disconnect();
+      if (frame) cancelAnimationFrame(frame);
+      if (url) URL.revokeObjectURL(url);
+    };
+  }, [color, stop, blur]);
+
+  const setRef = (node) => {
+    ref.current = node;
+    if (innerRef) innerRef.current = node;
+  };
+
+  return (
+    <div ref={setRef} className={className} style={style}>
+      {baked ? (
+        <div
+          className="absolute"
+          style={{
+            inset: -baked.pad,
+            backgroundImage: `url(${baked.url})`,
+            backgroundSize: "100% 100%",
+          }}
+        />
+      ) : (
+        <div
+          className="absolute inset-0 rounded-full"
+          style={{
+            background: `radial-gradient(circle, ${color} 0%, transparent ${stop * 100}%)`,
+            filter: `blur(${blur}px)`,
+          }}
+        />
+      )}
+    </div>
+  );
+}
+
+/**
+ * Resolves a CSS colour — tokens, color-mix and all — to 8-bit RGBA by
+ * letting the cascade compute it and painting one pixel, which sidesteps
+ * however the browser chooses to serialise modern colour spaces.
+ */
+function rgbaOf(el, color) {
+  el.style.color = color;
+  const computed = getComputedStyle(el).color;
+  el.style.color = "";
+  const px = document.createElement("canvas").getContext("2d");
+  px.canvas.width = px.canvas.height = 1;
+  px.globalCompositeOperation = "copy";
+  px.fillStyle = computed;
+  px.fillRect(0, 0, 1, 1);
+  const [r, g, b, a] = px.getImageData(0, 0, 1, 1).data;
+  return [r, g, b, +(a / 255).toFixed(3)];
+}
 
 /**
  * Film grain, drawn once to an offscreen canvas and tiled via CSS.
@@ -56,21 +197,19 @@ export function Aurora() {
 
   return (
     <div aria-hidden="true" className="pointer-events-none fixed inset-0 z-0 overflow-hidden">
-      <div
-        className="absolute -top-[20vh] -left-[10vw] h-[70vh] w-[70vw] rounded-full blur-[120px]"
-        style={{
-          background:
-            "radial-gradient(circle, color-mix(in oklab, var(--color-gold-600) 16%, transparent) 0%, transparent 65%)",
-          animation: reduced ? "none" : "drift-a 34s ease-in-out infinite alternate",
-        }}
+      <Bloom
+        className="absolute -top-[20vh] -left-[10vw] h-[70vh] w-[70vw]"
+        color="color-mix(in oklab, var(--color-gold-600) 16%, transparent)"
+        stop={0.65}
+        blur={120}
+        style={{ animation: reduced ? "none" : "drift-a 34s ease-in-out infinite alternate" }}
       />
-      <div
-        className="absolute bottom-[-25vh] right-[-15vw] h-[65vh] w-[60vw] rounded-full blur-[130px]"
-        style={{
-          background:
-            "radial-gradient(circle, color-mix(in oklab, var(--color-patina-600) 12%, transparent) 0%, transparent 65%)",
-          animation: reduced ? "none" : "drift-b 42s ease-in-out infinite alternate",
-        }}
+      <Bloom
+        className="absolute bottom-[-25vh] right-[-15vw] h-[65vh] w-[60vw]"
+        color="color-mix(in oklab, var(--color-patina-600) 12%, transparent)"
+        stop={0.65}
+        blur={130}
+        style={{ animation: reduced ? "none" : "drift-b 42s ease-in-out infinite alternate" }}
       />
       <style>{`
         @keyframes drift-a {
@@ -132,14 +271,14 @@ export function Spotlight() {
   if (!hasHover) return null;
 
   return (
-    <div
-      ref={ref}
-      aria-hidden="true"
-      className="pointer-events-none fixed left-0 top-0 z-0 h-[36rem] w-[36rem] rounded-full blur-[90px]"
-      style={{
-        background:
-          "radial-gradient(circle, color-mix(in oklab, var(--color-gold-500) 9%, transparent) 0%, transparent 60%)",
-      }}
-    />
+    <div aria-hidden="true">
+      <Bloom
+        innerRef={ref}
+        className="pointer-events-none fixed left-0 top-0 z-0 h-[36rem] w-[36rem]"
+        color="color-mix(in oklab, var(--color-gold-500) 9%, transparent)"
+        stop={0.6}
+        blur={90}
+      />
+    </div>
   );
 }

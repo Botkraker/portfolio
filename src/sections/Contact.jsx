@@ -30,7 +30,7 @@ export default function Contact() {
       <motion.p
         initial={{ opacity: 0, y: 20 }}
         whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true, margin: "-12%" }}
+        viewport={{ once: true, margin: "0px 0px -12% 0px" }}
         transition={{ duration: 1, ease: [0.16, 1, 0.3, 1], delay: 0.2 }}
         className="mt-10 max-w-[52ch] font-sans text-ivory-300 leading-relaxed"
       >
@@ -40,7 +40,7 @@ export default function Contact() {
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true, margin: "-12%" }}
+        viewport={{ once: true, margin: "0px 0px -12% 0px" }}
         transition={{ duration: 1, ease: [0.16, 1, 0.3, 1], delay: 0.3 }}
         className="mt-[clamp(2.5rem,5vw,4rem)] max-w-full"
       >
@@ -67,7 +67,7 @@ export default function Contact() {
       <motion.ul
         initial={{ opacity: 0 }}
         whileInView={{ opacity: 1 }}
-        viewport={{ once: true, margin: "-12%" }}
+        viewport={{ once: true, margin: "0px 0px -12% 0px" }}
         transition={{ duration: 1.1, ease: [0.16, 1, 0.3, 1], delay: 0.45 }}
         className="mt-[clamp(3rem,6vw,4.5rem)] flex flex-wrap gap-x-10 gap-y-5"
       >

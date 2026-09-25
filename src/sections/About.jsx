@@ -18,7 +18,7 @@ export default function About() {
         {/* Scrubbed to scroll position, so the quote sharpens as it's read. */}
         <ScrollReveal
           as="p"
-          baseOpacity={0.14}
+          baseOpacity={0.3}
           className="display text-[clamp(1.5rem,3vw,2.2rem)] leading-[1.25] text-ivory-50
                      max-w-[26ch] lg:col-span-6"
         >
@@ -28,7 +28,7 @@ export default function About() {
         <motion.div
           initial={{ opacity: 0, y: 24 }}
           whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: "-12%" }}
+          viewport={{ once: true, margin: "0px 0px -12% 0px" }}
           transition={{ duration: 1, ease: [0.16, 1, 0.3, 1], delay: 0.15 }}
           className="relative lg:col-span-5 lg:col-start-8 lg:pl-10"
         >

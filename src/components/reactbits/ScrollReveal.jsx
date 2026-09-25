@@ -26,16 +26,22 @@ export default function ScrollReveal({
   children,
   as: Tag = "p",
   className = "",
-  baseOpacity = 0.14,
+  baseOpacity = 0.3,
 }) {
   const ref = useRef(null);
   const reduced = useReducedMotion();
 
   // The paragraph is fully lit by the time it reaches the middle of the
   // viewport, so it finishes revealing while it is still being read.
+  //
+  // Both edge names have to be motion's own — "start", "end" or "center".
+  // This read "start bottom" for a long time, which is GSAP ScrollTrigger
+  // syntax left over from the component's GSAP original. Motion cannot parse
+  // "bottom", so the scroll range collapsed and progress never left 0: every
+  // word sat at baseOpacity for good and the paragraph just looked greyed out.
   const { scrollYProgress } = useScroll({
     target: ref,
-    offset: ["start bottom", "center center"],
+    offset: ["start end", "center center"],
   });
 
   // Split on whitespace but keep the separators, so spacing survives.
