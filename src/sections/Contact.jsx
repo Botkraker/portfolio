@@ -2,6 +2,7 @@ import { motion } from "motion/react";
 import { Section, Eyebrow, Rule, RevealText } from "../components/Typography";
 import { Magnetic, GoldLink } from "../components/Interactive";
 import { contact, profile } from "../content";
+import ResumeQR from "../components/ResumeQR";
 
 const links = [
   { label: "GitHub", href: profile.github },
@@ -83,6 +84,10 @@ export default function Contact() {
           </li>
         ))}
       </motion.ul>
+
+      <div className="mt-[clamp(2.5rem,5vw,4rem)]">
+        <ResumeQR />
+      </div>
     </Section>
   );
 }
